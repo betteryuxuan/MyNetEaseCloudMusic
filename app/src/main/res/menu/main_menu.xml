@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_item1"
+        android:icon="@drawable/ic_bottom_item_1"
+        android:title="推荐" />
+    <item
+        android:id="@+id/navigation_item2"
+        android:icon="@drawable/ic_bottom_item_2"
+        android:title="发现" />
+    <item
+        android:id="@+id/navigation_item3"
+        android:icon="@drawable/ic_bottom_item_3"
+        android:title="动态" />
+    <item
+        android:id="@+id/navigation_item4"
+        android:icon="@drawable/ic_bottom_item_4"
+        android:title="我的" />
+
+</menu>

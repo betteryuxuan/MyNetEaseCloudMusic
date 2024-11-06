@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".main.mvp.view.fragment.FindFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/find_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/dark_white">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/find_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentInsetStart="0dp"
+            app:layout_scrollFlags="noScroll">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/find_toolbar_menu"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="6dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_menu" />
+
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/find_tab"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@color/dark_white"
+                    app:tabRippleColor="@android:color/transparent"
+                    app:tabGravity="start"
+                    app:tabIndicator="@drawable/shape_tab_indicator"
+                    app:tabIndicatorColor="@color/red"
+                    app:tabSelectedTextColor="@color/black"
+                    app:tabTextAppearance="@style/MyNoteTabLayout"
+                    app:tabTextColor="#9096a2">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="音乐" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="播客" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="听书" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="直播" />
+
+                </com.google.android.material.tabs.TabLayout>
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/ic_search" />
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/find_vp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>
