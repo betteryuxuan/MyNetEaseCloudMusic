@@ -7,7 +7,7 @@
     android:background="@color/dark_white"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".main.mvp.view.fragment.RecommendFragment">
+    tools:context=".ui.main.recommendpage.view.RecommendFragment">
 
     <!--侧栏按钮+搜索框+听歌识曲-->
     <com.google.android.material.appbar.AppBarLayout

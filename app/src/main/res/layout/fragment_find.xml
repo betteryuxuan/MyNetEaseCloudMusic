@@ -7,7 +7,7 @@
     android:background="@color/dark_white"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".main.mvp.view.fragment.FindFragment">
+    tools:context=".ui.main.findpage.view.FindFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/find_appbar"

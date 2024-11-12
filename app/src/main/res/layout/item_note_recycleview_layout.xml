@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:orientation="vertical"
     android:layout_height="wrap_content"
-    tools:context=".main.mvp.view.fragment.NoteStarFragment">
+    tools:context=".ui.main.notepage.view.NoteStarFragment">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/note_star_rlv_img"

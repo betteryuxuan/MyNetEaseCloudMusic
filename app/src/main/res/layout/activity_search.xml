@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".ui.main.recommendpage.view.RecommendFragment">
+
+    <!--侧栏按钮+搜索框+听歌识曲-->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/dark_white">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/main_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentInsetStart="0dp"
+            app:layout_scrollFlags="noScroll">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_search_return"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_back" />
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/et_login_phonenum"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="8.5dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_search_sv"
+                        android:gravity="center"
+                        android:hint="忙碌的生活「人山人海」"
+                        android:inputType="phone"
+                        android:textColor="#283349"
+                        android:textColorHint="@color/gray_transparent"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/ic_search" />
+
+
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="16dp"
+                    android:text="搜索"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/img_search_1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_singner" />
+
+        <TextView
+            android:id="@+id/img_search_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="歌手"
+            android:layout_marginLeft="6dp"
+            android:textColor="@color/gray"
+            android:textSize="13dp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/gray_transparent" />
+        <ImageView
+            android:id="@+id/img_search_3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_part" />
+
+        <TextView
+            android:id="@+id/img_search_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="曲风"
+            android:layout_marginLeft="6dp"
+            android:textColor="@color/gray"
+            android:textSize="13dp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/gray_transparent" />
+        <ImageView
+            android:id="@+id/img_search_5"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:src="@drawable/ic_zhuanqu" />
+
+        <TextView
+            android:id="@+id/img_search_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="歌手"
+            android:layout_marginLeft="6dp"
+            android:textColor="@color/gray"
+            android:textSize="13dp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/gray_transparent" />
+        <ImageView
+            android:id="@+id/img_search_7"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_listen_red" />
+
+        <TextView
+            android:id="@+id/img_search_8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="识曲"
+            android:layout_marginLeft="6dp"
+            android:textColor="@color/gray"
+            android:textSize="13dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

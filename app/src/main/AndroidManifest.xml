@@ -4,6 +4,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -14,12 +18,24 @@
         android:roundIcon="@drawable/ic_launcher_my"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyNetEaseCloudMusic"
-        tools:targetApi="31">
+        tools:targetApi="35">
+        <service
+            android:name=".service.MusicService"
+            android:enabled="true"
+            android:foregroundServiceType="mediaPlayback"
+            android:exported="true" />
+
         <activity
-            android:name=".login.mvp.view.LoginActivity"
+            android:name=".ui.listen.ListenActivity"
             android:exported="false" />
         <activity
-            android:name=".main.mvp.view.MainActivity"
+            android:name=".ui.search.mvp.view.SearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.webActivity.WebActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.login.mvp.view.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,6 +43,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.main.mainpage.view.MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@ package com.example.myneteasecloudmusic.utils;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.view.View;
 
 public class AnimationUtil {
@@ -88,6 +89,25 @@ public class AnimationUtil {
                 reverseAnimator3.start();
             }
         });
+    }
 
+    // 震动动画
+    public static void setShakeAnimateView(View view) {
+        float shakeOffset = 5f;
+
+        ValueAnimator shakeAnimator = ValueAnimator.ofFloat(0, shakeOffset, -shakeOffset, shakeOffset, 0);
+        shakeAnimator.setDuration(100); // 动画持续时间
+        shakeAnimator.setRepeatCount(3); // 重复次数
+        shakeAnimator.setRepeatMode(ValueAnimator.REVERSE);
+
+        shakeAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (float) animation.getAnimatedValue();
+                view.setTranslationX(value);
+            }
+        });
+
+        shakeAnimator.start();
     }
 }

@@ -7,7 +7,7 @@
     android:background="@drawable/backgroud_mine"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".main.mvp.view.fragment.MineFragment">
+    tools:context=".ui.main.minepage.view.MineFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_mine"

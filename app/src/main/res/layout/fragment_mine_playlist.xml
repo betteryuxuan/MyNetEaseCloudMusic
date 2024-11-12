@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.mvp.view.fragment.MinePlaylistFragment">
+    tools:context=".ui.main.minepage.view.MinePlaylistFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mine_song_list_rlv"

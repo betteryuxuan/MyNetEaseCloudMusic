@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.mvp.view.fragment.MinePodcastFragment">
+    tools:context=".ui.main.minepage.view.MinePodcastFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mine_podcast_rlv"

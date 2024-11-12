@@ -7,7 +7,7 @@
     android:background="@color/dark_white"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".main.mvp.view.fragment.NoteFragment">
+    tools:context=".ui.main.notepage.view.NoteFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/note_appbar"
