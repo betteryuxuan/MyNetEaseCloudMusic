@@ -1,129 +1,130 @@
 package com.example.myneteasecloudmusic.service;
 
 import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Binder;
-import android.os.Build;
 import android.os.IBinder;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 
 import com.example.myneteasecloudmusic.R;
-import com.example.myneteasecloudmusic.ui.listen.ListenActivity;
 
 public class MusicService extends Service {
-
-    private final IBinder binder = new MyBinder();
+    private OnMusicEndListenser onMusicEndListenser;
     private MediaPlayer mediaPlayer;
-    private static final int NOTIFICATION_ID = 1;
-    private static final String CHANNEL_ID = "MusicServiceChannel";
+    private int[] musicFiles = {
+            R.raw.music1,
+            R.raw.music2,
+            R.raw.music3,
+            R.raw.music4,
+            R.raw.music5,
+            R.raw.music6
+    };
 
-    public class MyBinder extends Binder {
+    public interface OnMusicEndListenser {
+        void onMusicEnd();
+    }
+
+    public void setOnMusicEndListenser(OnMusicEndListenser listenser) {
+        this.onMusicEndListenser = listenser;
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        mediaPlayer = new MediaPlayer();
+        int songIndex = intent.getIntExtra("songIndex",1);
+        int musicResourceId = musicFiles[songIndex - 1];
+        mediaPlayer = MediaPlayer.create(this, musicResourceId);
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                if (onMusicEndListenser != null) {
+                    onMusicEndListenser.onMusicEnd();
+                }
+            }
+        });
+
+        return new MusicBinder();
+    }
+
+    public class MusicBinder extends Binder {
         public MusicService getService() {
             return MusicService.this;
         }
     }
 
     @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
-        Log.d("listenTag", "服务onCreate");
+
 
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        return START_STICKY;
-    }
-
-    private void startForegroundService() {
-        Intent notificationIntent = new Intent(this, ListenActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
-
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("正在播放音乐")
-                .setContentText("点击返回应用")
-                .setSmallIcon(R.drawable.ic_add)
-                .setContentIntent(pendingIntent)
-                .build();
-
-        startForeground(NOTIFICATION_ID, notification);
-    }
-
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel serviceChannel = new NotificationChannel(
-                    CHANNEL_ID,
-                    "Music Service Channel",
-                    NotificationManager.IMPORTANCE_DEFAULT
-            );
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            if (manager != null) {
-                manager.createNotificationChannel(serviceChannel);
-            }
+    public void playMusic() {
+        if (!mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
         }
     }
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        Log.d("listenTag", "服务onBind");
-        if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer.create(this, R.raw.apt);
+    public void pauseMusic() {
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
         }
-        createNotificationChannel();
-        startForegroundService();
-        return binder;
+    }
+
+    public void continueMusic() {
+        if (!mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
+        }
+    }
+
+    public boolean isPlaying() {
+        return mediaPlayer.isPlaying();
     }
 
     @Override
     public void onDestroy() {
-        Log.d("listenTag", "服务onDestroy");
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
         super.onDestroy();
-//        mediaPlayer.stop();
-//        mediaPlayer.release();
-//        mediaPlayer = null;
-//        stopSelf();
     }
 
-    public void playOrPauseMusic() {
-        if(mediaPlayer.isPlaying()){
-            mediaPlayer.pause();
-        }else{
-            mediaPlayer.start();
-        }
-    }
-    public void stopMusic() {
-        if(mediaPlayer!=null){
-            mediaPlayer.stop();
-
-        }
-    }
-
-    public Boolean isPlaying(){
-        return mediaPlayer.isPlaying();
-    }
-
-
-    public int getProgress() {
+    public int getTotalDuration() {
         return mediaPlayer.getDuration();
     }
 
-
-    public int getPlayPosition() {
-
+    public int getCurrentPosition() {
         return mediaPlayer.getCurrentPosition();
     }
 
-    public void seekToPositon(int msec) {
-        mediaPlayer.seekTo(msec);
+    public void seekTo(int position) {
+        mediaPlayer.seekTo(position);
     }
 
+    public void rePlay() {
+        if (mediaPlayer != null) {
+            mediaPlayer.seekTo(0); // 将播放位置重置到开头
+            mediaPlayer.start();   // 开始播放
+        }
+    }
+
+
+//    private void updateUI(int progress, int totalDuration) {
+//        if (handler != null) {
+//            Message message = Message.obtain(handler, UPDATE_UI, progress, totalDuration);
+//            handler.sendMessage(message);
+//        }
+//    }
 }

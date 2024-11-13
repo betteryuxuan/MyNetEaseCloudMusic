@@ -1,41 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/listen_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/shape_background_listen"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".ui.listen.ListenActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/ic_listen_return"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:scaleType="centerCrop"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_listen_return"
+            android:text="开始" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="320dp"
+            android:layout_height="320dp"
+            android:layout_gravity="center"
+            android:src="#525252" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            android:src="#050505" />
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_listen_song"
+            android:layout_width="225dp"
+            android:layout_height="225dp"
+            android:layout_gravity="center"
+            android:src="@drawable/pic_song4" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:orientation="vertical"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_listen_songname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text="Ask me why"
+            android:textColor="#bdbdbd"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_listen_singnername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="6dp"
+            android:text="久石让"
+            android:textColor="#bdbdbd"
+            android:textSize="14dp"
+            android:textStyle="bold" />
 
         <SeekBar
             android:id="@+id/sb_listen"
             android:layout_width="match_parent"
-            android:layout_height="10dp" />
+            android:layout_height="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:outlineAmbientShadowColor="#9f9f9f"
+            android:outlineSpotShadowColor="#9f9f9f" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:layout_marginTop="5dp">
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="30dp">
 
             <TextView
                 android:id="@+id/tv_listen_now"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
-                android:textSize="12dp" />
+                android:textColor="#9f9f9f"
+                android:textSize="11dp" />
 
             <View
                 android:layout_width="0dp"
@@ -47,15 +106,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
-                android:textSize="12dp" />
+                android:textColor="#9f9f9f"
+                android:textSize="11dp" />
 
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:gravity="center">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="40dp"
+            android:src="@drawable/ic_listen_xunhuan"
+            android:text="开始" />
 
         <ImageView
             android:id="@+id/img_listen_back"
@@ -66,8 +133,8 @@
 
         <ImageView
             android:id="@+id/img_listen_startandstop"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:src="@drawable/ic_listen_play"
@@ -80,5 +147,11 @@
             android:src="@drawable/ic_listen_next"
             android:text="开始" />
 
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="40dp"
+            android:src="@drawable/ic_listen_list"
+            android:text="开始" />
     </LinearLayout>
 </LinearLayout>

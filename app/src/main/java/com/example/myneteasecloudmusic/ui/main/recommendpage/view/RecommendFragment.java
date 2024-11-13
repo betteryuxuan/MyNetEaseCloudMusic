@@ -181,6 +181,5 @@ public class RecommendFragment extends BaseFragment<RecommendPresenter> implemen
         picList.add(R.drawable.pic_song2);
         picList.add(R.drawable.pic_song4);
         picList.add(R.drawable.pic_song13);
-
     }
 }

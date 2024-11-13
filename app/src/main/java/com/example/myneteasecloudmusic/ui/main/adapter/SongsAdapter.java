@@ -1,5 +1,6 @@
 package com.example.myneteasecloudmusic.ui.main.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -62,9 +63,37 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHodler
         holder.layout1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, ListenActivity.class);
-                mContext.startActivity(intent);
                 AnimationUtil.setAnimateView(holder.layout1);
+                Intent intent = new Intent(mContext, ListenActivity.class);
+                intent.putExtra("songName", holder.layout1Tv1.getText());
+                mContext.startActivity(intent);
+                if (mContext instanceof Activity) {
+                    ((Activity) mContext).overridePendingTransition(R.anim.slide_in_bottom, 0);
+                }
+            }
+        });
+        holder.layout2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AnimationUtil.setAnimateView(holder.layout2);
+                Intent intent = new Intent(mContext, ListenActivity.class);
+                intent.putExtra("songName", holder.layout2Tv1.getText());
+                mContext.startActivity(intent);
+                if (mContext instanceof Activity) {
+                    ((Activity) mContext).overridePendingTransition(R.anim.slide_in_bottom, 0);
+                }
+            }
+        });
+        holder.layout3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AnimationUtil.setAnimateView(holder.layout3);
+                Intent intent = new Intent(mContext, ListenActivity.class);
+                intent.putExtra("songName", holder.layout3Tv1.getText());
+                mContext.startActivity(intent);
+                if (mContext instanceof Activity) {
+                    ((Activity) mContext).overridePendingTransition(R.anim.slide_in_bottom, 0);
+                }
             }
         });
     }
