@@ -1,5 +1,6 @@
 package com.example.myneteasecloudmusic.ui.main.mainpage.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.example.myneteasecloudmusic.R;
 import com.example.myneteasecloudmusic.base.BaseActivity;
 import com.example.myneteasecloudmusic.base.BaseView;
 import com.example.myneteasecloudmusic.databinding.ActivityMainBinding;
+import com.example.myneteasecloudmusic.ui.login.mvp.view.LoginActivity;
 import com.example.myneteasecloudmusic.ui.main.adapter.MainFragmentVPAdapter;
 import com.example.myneteasecloudmusic.ui.main.mainpage.contract.IMainContract;
 import com.example.myneteasecloudmusic.ui.main.mainpage.presenter.MainPresenter;
@@ -35,11 +37,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
     private ActivityMainBinding binding;
     private List<Fragment> fragments = new ArrayList<>();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     // 在 BaseActivity 的 onCreate 被调用
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -56,15 +53,18 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        fragments.add(RecommendFragment.newInstance("1", "2"));
+        fragments.add(new RecommendFragment());
         fragments.add(new FindFragment());
-        fragments.add(NoteFragment.newInstance("3", "2"));
-        fragments.add(MineFragment.newInstance("4", "2"));
+        fragments.add(new NoteFragment());
+        fragments.add(new MineFragment());
         MainFragmentVPAdapter adapter = new MainFragmentVPAdapter(this, fragments);
         binding.contentMain.mainViewPager.setAdapter(adapter);
         binding.contentMain.mainViewPager.setOffscreenPageLimit(4);
 
         binding.contentMain.mainViewPager.setCurrentItem(0);
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -81,6 +81,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
     @Override
     protected void initData() {
         initBottomNavigationView();
+
+//        findViewById(R.id.fab_all_play).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
     }
 
     private void initBottomNavigationView() {
@@ -118,14 +125,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
         });
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
-
 
     @Override
-    public void testB() {
+    public void onClick(View view) {
 
     }
 }

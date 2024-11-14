@@ -1,27 +1,28 @@
 package com.example.myneteasecloudmusic.service;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 
 import com.example.myneteasecloudmusic.R;
 
 public class MusicService extends Service {
+    private static final String CHANNEL_ID = "MusicServiceChannel";
     private OnMusicEndListenser onMusicEndListenser;
     private MediaPlayer mediaPlayer;
-    private int[] musicFiles = {
-            R.raw.music1,
-            R.raw.music2,
-            R.raw.music3,
-            R.raw.music4,
-            R.raw.music5,
-            R.raw.music6
-    };
+    private int currentSongIndex = -1;
+    private int[] musicFiles = {R.raw.music1, R.raw.music2, R.raw.music3, R.raw.music4, R.raw.music5, R.raw.music6, R.raw.music7};
 
     public interface OnMusicEndListenser {
         void onMusicEnd();
@@ -31,43 +32,115 @@ public class MusicService extends Service {
         this.onMusicEndListenser = listenser;
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.d("listenTag", "MusicService: onCreate: ");
+        if (mediaPlayer == null)
+            mediaPlayer = new MediaPlayer();
+        Log.d("listenTag", "onCreate");
+    }
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        mediaPlayer = new MediaPlayer();
-        int songIndex = intent.getIntExtra("songIndex",1);
-        int musicResourceId = musicFiles[songIndex - 1];
-        mediaPlayer = MediaPlayer.create(this, musicResourceId);
+//        int songIndex = intent.getIntExtra("songIndex", 1) - 1;
+//        Log.d("listenTag", "onBind: " + songIndex);
+//
+//        if (currentSongIndex != songIndex) {
+//            if (!mediaPlayer.isPlaying()) {
+//                mediaPlayer = MediaPlayer.create(this, musicFiles[songIndex]);
+//                currentSongIndex = songIndex;
+//
+//                mediaPlayer.setOnCompletionListener(mediaPlayer -> {
+//                    if (onMusicEndListenser != null) {
+//                        onMusicEndListenser.onMusicEnd();
+//                    }
+//                });
+//                playMusic();
+//            } else {
+//                mediaPlayer.stop();
+//                mediaPlayer.reset();
+//                mediaPlayer = MediaPlayer.create(this, musicFiles[songIndex]);
+//                currentSongIndex = songIndex;
+//
+//                mediaPlayer.setOnCompletionListener(mediaPlayer -> {
+//                    if (onMusicEndListenser != null) {
+//                        onMusicEndListenser.onMusicEnd();
+//                    }
+//                });
+//            }
+//        }
 
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
+        return new MusicBinder();
+    }
+
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        int songIndex = intent.getIntExtra("songIndex", 1) - 1;
+        Log.d("listenTag", "onStartCommand: " + songIndex);
+
+        if (currentSongIndex != songIndex) {
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            mediaPlayer = MediaPlayer.create(this, musicFiles[songIndex]);
+            currentSongIndex = songIndex;
+
+            mediaPlayer.setOnCompletionListener(mediaPlayer -> {
                 if (onMusicEndListenser != null) {
                     onMusicEndListenser.onMusicEnd();
                 }
-            }
-        });
+            });
+        }
 
-        return new MusicBinder();
+
+        createNotificationChannel();
+        Notification notification = createMusicNotification(this);
+
+        startForeground(1, notification);
+
+        return START_STICKY;
+    }
+
+    public Notification createMusicNotification(Context context) {
+        Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setContentTitle("正在播放音乐")
+                .setContentText(getSongName())
+                .setSmallIcon(R.drawable.ic_item_1_selected)
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setOngoing(true)
+                .build();
+
+        return notification;
+    }
+
+    private String getSongName() {
+        switch (currentSongIndex) {
+            case 0:
+                return "APT.";
+            case 1:
+                return "Please Please Please";
+            case 2:
+                return "不为谁而作的歌";
+            case 3:
+                return "虚拟";
+            case 4:
+                return "Ask me why(眞人の決意)";
+            case 5:
+                return "Sacred Play Secret Place";
+            case 6:
+                return "Espresso";
+            default:
+                return "NULL";
+
+        }
     }
 
     public class MusicBinder extends Binder {
         public MusicService getService() {
             return MusicService.this;
         }
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-
-        return super.onStartCommand(intent, flags, startId);
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-
     }
 
     public void playMusic() {
@@ -88,9 +161,26 @@ public class MusicService extends Service {
         }
     }
 
+    public void playSongByIndex(int songIndex) {
+        if (currentSongIndex != songIndex) {
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            mediaPlayer = MediaPlayer.create(this, musicFiles[songIndex]);
+            currentSongIndex = songIndex;
+
+            mediaPlayer.setOnCompletionListener(mediaPlayer -> {
+                if (onMusicEndListenser != null) {
+                    onMusicEndListenser.onMusicEnd();
+                }
+            });
+        }
+        updateNotification();
+        playMusic();
+    }
     public boolean isPlaying() {
         return mediaPlayer.isPlaying();
     }
+
 
     @Override
     public void onDestroy() {
@@ -98,6 +188,7 @@ public class MusicService extends Service {
             mediaPlayer.release();
             mediaPlayer = null;
         }
+        stopForeground(true);
         super.onDestroy();
     }
 
@@ -115,16 +206,25 @@ public class MusicService extends Service {
 
     public void rePlay() {
         if (mediaPlayer != null) {
-            mediaPlayer.seekTo(0); // 将播放位置重置到开头
-            mediaPlayer.start();   // 开始播放
+            mediaPlayer.seekTo(0);
+            mediaPlayer.start();
         }
     }
 
+    // 通知通道，用于前台服务的通知
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel serviceChannel = new NotificationChannel(CHANNEL_ID, "音乐播放服务通道", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            if (manager != null) {
+                manager.createNotificationChannel(serviceChannel);
+            }
+        }
+    }
 
-//    private void updateUI(int progress, int totalDuration) {
-//        if (handler != null) {
-//            Message message = Message.obtain(handler, UPDATE_UI, progress, totalDuration);
-//            handler.sendMessage(message);
-//        }
-//    }
+    private void updateNotification() {
+        Notification notification = createMusicNotification(this);
+        startForeground(1, notification);
+    }
+
 }

@@ -9,8 +9,4 @@ public class MainModel extends BaseModel<MainPresenter> implements IMainContract
         super(mPresenter);
     }
 
-    @Override
-    public void testA() {
-
-    }
 }

@@ -37,8 +37,8 @@ public class FindFragment extends BaseFragment<FindPresenter> implements IFindCo
         super.onCreate(savedInstanceState);
         fragmentList = new ArrayList<>();
         fragmentList.add(new FindMusicFragment());
-        fragmentList.add(new FindPodcastFragment());
-        fragmentList.add(new FindListenbookFragment());
+        fragmentList.add(new FindMusicFragment());
+        fragmentList.add(new FindMusicFragment());
         fragmentList.add(new FindMusicFragment());
     }
 

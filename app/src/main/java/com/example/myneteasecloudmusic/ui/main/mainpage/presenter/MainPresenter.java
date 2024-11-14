@@ -11,8 +11,5 @@ public class MainPresenter extends BasePresenter<BaseView, MainModel> implements
         return new MainModel(this);
     }
 
-    @Override
-    public void testC() {
 
-    }
 }

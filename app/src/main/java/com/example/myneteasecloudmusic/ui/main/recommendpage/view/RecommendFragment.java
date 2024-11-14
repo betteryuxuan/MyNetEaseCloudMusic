@@ -15,20 +15,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myneteasecloudmusic.R;
 import com.example.myneteasecloudmusic.base.BaseFragment;
 import com.example.myneteasecloudmusic.base.BaseView;
+import com.example.myneteasecloudmusic.bean.SongBean;
 import com.example.myneteasecloudmusic.databinding.FragmentRecommendBinding;
-import com.example.myneteasecloudmusic.ui.main.adapter.HeadAdapter;
-import com.example.myneteasecloudmusic.ui.main.adapter.SongsAdapter;
+import com.example.myneteasecloudmusic.ui.main.adapter.RecommendHeadRlvAdapter;
+import com.example.myneteasecloudmusic.ui.main.adapter.RecommendSongsRlvAdapter;
 import com.example.myneteasecloudmusic.ui.main.recommendpage.contract.IRecommendContract;
 import com.example.myneteasecloudmusic.ui.main.recommendpage.presenter.RecommendPresenter;
 import com.example.myneteasecloudmusic.ui.search.mvp.view.SearchActivity;
 import com.example.myneteasecloudmusic.utils.AnimationUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RecommendFragment extends BaseFragment<RecommendPresenter> implements IRecommendContract.View {
     private static final String TAG = "RecommendFragment";
 
+    private List<SongBean> songList1;
+    private List<SongBean> songList2;
     private FragmentRecommendBinding binding;
 
     public RecommendFragment() {
@@ -65,6 +67,7 @@ public class RecommendFragment extends BaseFragment<RecommendPresenter> implemen
         mPresenter.bindView(this);
 
         mPresenter.loadTime();
+        mPresenter.initList();
         mPresenter.setAdapters();
 
 
@@ -125,22 +128,19 @@ public class RecommendFragment extends BaseFragment<RecommendPresenter> implemen
     // 上面三个 recycleView 的设置
     @Override
     public void setAdapters() {
-
-        HeadAdapter headAdapter = new HeadAdapter(getContext());
+        RecommendHeadRlvAdapter recommendHeadRlvAdapter = new RecommendHeadRlvAdapter(getContext());
         RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        binding.rvRecommend1.setAdapter(headAdapter);
+        binding.rvRecommend1.setAdapter(recommendHeadRlvAdapter);
         binding.rvRecommend1.setLayoutManager(layoutManager1);
 
-        initList1();
-        SongsAdapter songsAdapter = new SongsAdapter(getContext(), picList, nameList, singerList);
+        RecommendSongsRlvAdapter recommendSongsRlvAdapter1 = new RecommendSongsRlvAdapter(getContext(), songList1);
         RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        binding.rvRecommend2.setAdapter(songsAdapter);
+        binding.rvRecommend2.setAdapter(recommendSongsRlvAdapter1);
         binding.rvRecommend2.setLayoutManager(layoutManager2);
 
-        initList2();
-        SongsAdapter songsAdapter2 = new SongsAdapter(getContext(), picList, nameList, singerList);
+        RecommendSongsRlvAdapter recommendSongsRlvAdapter2 = new RecommendSongsRlvAdapter(getContext(), songList2);
         RecyclerView.LayoutManager layoutManager3 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        binding.rvRecommend3.setAdapter(songsAdapter2);
+        binding.rvRecommend3.setAdapter(recommendSongsRlvAdapter2);
         binding.rvRecommend3.setLayoutManager(layoutManager3);
 
         PagerSnapHelper snapHelper1 = new PagerSnapHelper();
@@ -149,37 +149,11 @@ public class RecommendFragment extends BaseFragment<RecommendPresenter> implemen
         snapHelper2.attachToRecyclerView(binding.rvRecommend3);
     }
 
-    private List<String> nameList;
-    private List<String> singerList;
-    private List<Integer> picList;
-
-    private void initList1() {
-        nameList = new ArrayList<>();
-        singerList = new ArrayList<>();
-        picList = new ArrayList<>();
-        nameList.add("APT.");
-        nameList.add("Please Please Please");
-        nameList.add("不为谁而作的歌");
-        singerList.add("ROSÉ/Bruno Mars");
-        singerList.add("Sabrina Carpenter");
-        singerList.add("林俊杰");
-        picList.add(R.drawable.pic_song1);
-        picList.add(R.drawable.pic_song3);
-        picList.add(R.drawable.pic_song15);
+    @Override
+    public void updateSongList(List<SongBean> songList1, List<SongBean> songList2) {
+        this.songList1 = songList1;
+        this.songList2 = songList2;
     }
 
-    private void initList2() {
-        nameList = new ArrayList<>();
-        singerList = new ArrayList<>();
-        picList = new ArrayList<>();
-        nameList.add("虚拟");
-        nameList.add("Ask me why(眞人の決意)");
-        nameList.add("Sacred Play Secret Place");
-        singerList.add("陈粒");
-        singerList.add("久石譲");
-        singerList.add("Matryoshka");
-        picList.add(R.drawable.pic_song2);
-        picList.add(R.drawable.pic_song4);
-        picList.add(R.drawable.pic_song13);
-    }
+
 }

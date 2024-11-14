@@ -1,15 +1,22 @@
 package com.example.myneteasecloudmusic.ui.login.mvp.view;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -37,8 +44,30 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
             return insets;
         });
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        requestNotificationPermission();
     }
+
+    private void requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d("LoginActivity", "Notification permission granted.");
+            } else {
+            }
+        }
+    }
+
 
     @Override
     protected void initData() {
@@ -51,7 +80,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
             }
         });
 
-
         binding.btnLoginCodestart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,6 +90,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
                 } else if (phoneNum.length() != 13) {
                     AnimationUtil.setShakeAnimateView(view);
                     Toast.makeText(getApplicationContext(), "请输入11位数字的手机号", Toast.LENGTH_SHORT).show();
+                } else if (!binding.cbLoginPrivacy.isChecked()) {
+                    Toast.makeText(getApplicationContext(), "请同意服务条款及隐私政策", Toast.LENGTH_SHORT).show();
+
                 } else {
                     mPresenter.loginActivity();
                 }
@@ -86,9 +117,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
 
     @Override
     public void loginActivity() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.d("listenTag1", "LoginActivity: onBackPressed");
+        finishAffinity();
     }
 
     private void setEdit() {
@@ -102,14 +138,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // 防止递归
                 if (isUpdating) {
                     return;
                 }
 
                 isUpdating = true;
 
-                // 去掉已有的空格
                 sb.setLength(0);
                 for (int i = 0; i < s.length(); i++) {
                     char c = s.charAt(i);
@@ -118,7 +152,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
                     }
                 }
 
-                // 重新添加空格
                 if (sb.length() > 3) {
                     sb.insert(3, " ");
                 }
@@ -126,7 +159,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
                     sb.insert(8, " ");
                 }
 
-                // 更新 EditText 内容
                 binding.etLoginPhonenum.setText(sb.toString());
                 binding.etLoginPhonenum.setSelection(sb.length()); // 将光标移动到文本最后
 

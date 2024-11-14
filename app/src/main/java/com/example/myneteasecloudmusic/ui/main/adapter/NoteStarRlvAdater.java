@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myneteasecloudmusic.R;
+import com.example.myneteasecloudmusic.utils.AnimationUtil;
 
 import java.util.List;
 

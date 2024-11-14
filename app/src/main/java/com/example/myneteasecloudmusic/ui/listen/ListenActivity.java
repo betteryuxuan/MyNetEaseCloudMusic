@@ -1,5 +1,7 @@
 package com.example.myneteasecloudmusic.ui.listen;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -18,8 +20,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.myneteasecloudmusic.R;
+import com.example.myneteasecloudmusic.bean.SongBean;
 import com.example.myneteasecloudmusic.databinding.ActivityListenBinding;
 import com.example.myneteasecloudmusic.service.MusicService;
+import com.example.myneteasecloudmusic.utils.AnimationUtil;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,6 +37,7 @@ public class ListenActivity extends AppCompatActivity {
     private int curSongIndex;
     private ObjectAnimator rotationAnimator;
     private String songName;
+    private List<SongBean> songList;
 
     private ServiceConnection conn = new ServiceConnection() {
         @Override
@@ -45,7 +51,19 @@ public class ListenActivity extends AppCompatActivity {
             binding.tvListenDuration.setText(totalDuration);
             binding.sbListen.setMax(musicService.getTotalDuration());
 
+
+            // 绑定服务后，同步播放进度和长度，播放图标
             updateProgress();
+            musicService.playMusic();
+
+
+            musicService.setOnMusicEndListenser(new MusicService.OnMusicEndListenser() {
+                @Override
+                public void onMusicEnd() {
+                    Log.d("listenTag", "回调了");
+                    musicService.rePlay();
+                }
+            });
         }
 
         @Override
@@ -54,11 +72,28 @@ public class ListenActivity extends AppCompatActivity {
         }
     };
 
+    private void updateicon() {
+        if (isBound) {
+            if (musicService.isPlaying()) {
+                binding.imgListenStartandstop.setImageResource(R.drawable.ic_listen_stop);
+                if (rotationAnimator.isPaused()) {
+                    rotationAnimator.resume();
+                } else if (!rotationAnimator.isStarted()) {
+                    rotationAnimator.start();
+                }
+            } else {
+                binding.imgListenStartandstop.setImageResource(R.drawable.ic_listen_play);
+                rotationAnimator.pause();
+            }
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityListenBinding.inflate(getLayoutInflater());
+
         setContentView(binding.getRoot());
         EdgeToEdge.enable(this);
         ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
@@ -69,35 +104,12 @@ public class ListenActivity extends AppCompatActivity {
 
         Intent getIntent = getIntent();
         songName = getIntent.getStringExtra("songName");
-        Log.d("listenTag", songName);
+        Log.d("listenTag", "ListenActivity:" + songName);
         initList();
         dealWithSongName();
 
-        rotationAnimator = ObjectAnimator.ofFloat(binding.imgListenSong, "rotation", 0f, 360f);
-        rotationAnimator.setDuration(50000); // 设置动画持续时间，单位毫秒
-        rotationAnimator.setRepeatCount(ObjectAnimator.INFINITE); // 无限循环
-        rotationAnimator.setInterpolator(new LinearInterpolator()); // 速度不变
+        setRotationAnimation();
 
-        binding.imgListenStartandstop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isBound) {
-                    if (musicService.isPlaying()) {
-                        musicService.pauseMusic();
-                        binding.imgListenStartandstop.setImageResource(R.drawable.ic_listen_play);
-                        rotationAnimator.pause();
-                    } else {
-                        musicService.playMusic();
-                        binding.imgListenStartandstop.setImageResource(R.drawable.ic_listen_stop);
-                        if (rotationAnimator.isPaused()) {
-                            rotationAnimator.resume();
-                        } else {
-                            rotationAnimator.start();
-                        }
-                    }
-                }
-            }
-        });
 
         binding.sbListen.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -117,14 +129,89 @@ public class ListenActivity extends AppCompatActivity {
             }
         });
 
-        binding.icListenReturn.setOnClickListener(new View.OnClickListener() {
+        binding.imgListenReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
 
+        binding.imgListenStartandstop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AnimationUtil.setAnimateView2(binding.imgListenStartandstop);
+                isAnimatiorPlay();
+            }
+        });
+
+        binding.imgListenNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AnimationUtil.setAnimateView2(binding.imgListenNext);
+
+                int nextIndex = (curSongIndex + 1) % songList.size();
+                musicService.playSongByIndex(nextIndex);
+                curSongIndex = nextIndex;
+
+                // activity UI的更新
+                SongBean nextSong = songList.get(nextIndex);
+                binding.tvListenSingnername.setText(nextSong.getSingnerName());
+                binding.tvListenSongname.setText(nextSong.getSongName());
+                binding.imgListenSong.setImageResource(nextSong.getPicture());
+                binding.tvListenDuration.setText(formatTime(musicService.getTotalDuration()));
+                binding.sbListen.setMax(musicService.getTotalDuration());
+                updateProgress();
+
+            }
+        });
+        binding.imgListenBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AnimationUtil.setAnimateView2(binding.imgListenBack);
+
+                int nextIndex = (curSongIndex - 1 + songList.size()) % songList.size();
+                musicService.playSongByIndex(nextIndex);
+                curSongIndex = nextIndex;
+
+                // activity UI的更新
+                SongBean nextSong = songList.get(nextIndex);
+                binding.tvListenSingnername.setText(nextSong.getSingnerName());
+                binding.tvListenSongname.setText(nextSong.getSongName());
+                binding.imgListenSong.setImageResource(nextSong.getPicture());
+                binding.tvListenDuration.setText(formatTime(musicService.getTotalDuration()));
+                binding.sbListen.setMax(musicService.getTotalDuration());
+                updateProgress();
+
+            }
+        });
+
     }
+
+    private void setRotationAnimation() {
+        rotationAnimator = ObjectAnimator.ofFloat(binding.imgListenSong, "rotation", 0f, 360f);
+        rotationAnimator.setDuration(50000); // 设置动画持续时间，单位毫秒
+        rotationAnimator.setRepeatCount(ObjectAnimator.INFINITE); // 无限循环
+        rotationAnimator.setInterpolator(new LinearInterpolator()); // 速度不变
+    }
+
+    private void isAnimatiorPlay() {
+        if (isBound) {
+            if (musicService.isPlaying()) {
+                musicService.pauseMusic();
+                binding.imgListenStartandstop.setImageResource(R.drawable.ic_listen_play);
+                rotationAnimator.pause();
+            } else {
+                musicService.playMusic();
+                binding.imgListenStartandstop.setImageResource(R.drawable.ic_listen_stop);
+                if (rotationAnimator.isPaused()) {
+                    rotationAnimator.resume();
+                } else {
+                    rotationAnimator.start();
+                }
+            }
+        }
+    }
+
 
     private void updateProgress() {
         new Thread(new Runnable() {
@@ -140,6 +227,7 @@ public class ListenActivity extends AppCompatActivity {
                             int curPostion = musicService.getCurrentPosition();
                             binding.sbListen.setProgress(curPostion);
                             binding.tvListenNow.setText(formatTime(curPostion));
+                            updateicon();
                         }
                     });
                     try {
@@ -151,13 +239,6 @@ public class ListenActivity extends AppCompatActivity {
             }
         }).start();
 
-        musicService.setOnMusicEndListenser(new MusicService.OnMusicEndListenser() {
-            @Override
-            public void onMusicEnd() {
-                Log.d("listenTag", "回调了");
-                musicService.rePlay();
-            }
-        });
     }
 
     @Override
@@ -166,6 +247,7 @@ public class ListenActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MusicService.class);
         intent.putExtra("songIndex", curSongIndex);
         Log.d("listenTag", String.valueOf(curSongIndex));
+        startService(intent);
         bindService(intent, conn, BIND_AUTO_CREATE);
     }
 
@@ -178,6 +260,13 @@ public class ListenActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("listenTag", "ListenActivity: onDestroy");
+        rotationAnimator.cancel();
+    }
+
     private String formatTime(int milliseconds) {
         SimpleDateFormat formatter = new SimpleDateFormat("mm:ss");
         return formatter.format(milliseconds);
@@ -187,68 +276,57 @@ public class ListenActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(0, R.anim.silde_out_bottom);
-
     }
 
     private void dealWithSongName() {
-        if (songName.contains("APT.")) {
-            binding.imgListenSong.setImageResource(picList.get(0));
-            binding.tvListenSongname.setText(nameList.get(0).toString());
-            binding.tvListenSingnername.setText(singerList.get(0));
+        initList();
+        if (songName.equals(songList.get(0).getSongName())) {
+            binding.imgListenSong.setImageResource(songList.get(0).getPicture());
+            binding.tvListenSongname.setText(songList.get(0).getSongName());
+            binding.tvListenSingnername.setText(songList.get(0).getSingnerName());
             curSongIndex = 1;
-        } else if (songName.contains("Please Please Please")) {
-            binding.imgListenSong.setImageResource(picList.get(1));
-            binding.tvListenSongname.setText(nameList.get(1).toString());
-            binding.tvListenSingnername.setText(singerList.get(1));
+        } else if (songName.equals(songList.get(1).getSongName())) {
+            binding.imgListenSong.setImageResource(songList.get(1).getPicture());
+            binding.tvListenSongname.setText(songList.get(1).getSongName());
+            binding.tvListenSingnername.setText(songList.get(1).getSingnerName());
             curSongIndex = 2;
-        } else if (songName.contains("不为谁而作的歌")) {
-            binding.imgListenSong.setImageResource(picList.get(2));
-            binding.tvListenSongname.setText(nameList.get(2).toString());
-            binding.tvListenSingnername.setText(singerList.get(2));
+        } else if (songName.equals(songList.get(2).getSongName())) {
+            binding.imgListenSong.setImageResource(songList.get(2).getPicture());
+            binding.tvListenSongname.setText(songList.get(2).getSongName());
+            binding.tvListenSingnername.setText(songList.get(2).getSingnerName());
             curSongIndex = 3;
-        } else if (songName.contains("虚拟")) {
-            binding.imgListenSong.setImageResource(picList.get(3));
-            binding.tvListenSongname.setText(nameList.get(3).toString());
-            binding.tvListenSingnername.setText(singerList.get(3));
+        } else if (songName.equals(songList.get(3).getSongName())) {
+            binding.imgListenSong.setImageResource(songList.get(3).getPicture());
+            binding.tvListenSongname.setText(songList.get(3).getSongName());
+            binding.tvListenSingnername.setText(songList.get(3).getSingnerName());
             curSongIndex = 4;
-        } else if (songName.contains("Ask me why")) {
-            binding.imgListenSong.setImageResource(picList.get(4));
-            binding.tvListenSongname.setText(nameList.get(4).toString());
-            binding.tvListenSingnername.setText(singerList.get(4));
+        } else if (songName.equals(songList.get(4).getSongName())) {
+            binding.imgListenSong.setImageResource(songList.get(4).getPicture());
+            binding.tvListenSongname.setText(songList.get(4).getSongName());
+            binding.tvListenSingnername.setText(songList.get(4).getSingnerName());
             curSongIndex = 5;
-        } else if (songName.contains("Sacred Play Secret Place")) {
-            binding.imgListenSong.setImageResource(picList.get(5));
-            binding.tvListenSongname.setText(nameList.get(5).toString());
-            binding.tvListenSingnername.setText(singerList.get(5));
+        } else if (songName.equals(songList.get(5).getSongName())) {
+            binding.imgListenSong.setImageResource(songList.get(5).getPicture());
+            binding.tvListenSongname.setText(songList.get(5).getSongName());
+            binding.tvListenSingnername.setText(songList.get(5).getSingnerName());
             curSongIndex = 6;
+        } else if (songName.equals(songList.get(6).getSongName())) {
+            binding.imgListenSong.setImageResource(songList.get(6).getPicture());
+            binding.tvListenSongname.setText(songList.get(6).getSongName());
+            binding.tvListenSingnername.setText(songList.get(6).getSingnerName());
+            curSongIndex = 7;
         }
     }
 
-    private List<String> nameList;
-    private List<String> singerList;
-    private List<Integer> picList;
 
-    private void initList() {
-        nameList = new ArrayList<>();
-        singerList = new ArrayList<>();
-        picList = new ArrayList<>();
-        nameList.add("APT.");
-        nameList.add("Please Please Please");
-        nameList.add("不为谁而作的歌");
-        singerList.add("ROSÉ/Bruno Mars");
-        singerList.add("Sabrina Carpenter");
-        singerList.add("林俊杰");
-        picList.add(R.drawable.pic_song1);
-        picList.add(R.drawable.pic_song3);
-        picList.add(R.drawable.pic_song15);
-        nameList.add("虚拟");
-        nameList.add("Ask me why(眞人の決意)");
-        nameList.add("Sacred Play Secret Place");
-        singerList.add("陈粒");
-        singerList.add("久石譲");
-        singerList.add("Matryoshka");
-        picList.add(R.drawable.pic_song2);
-        picList.add(R.drawable.pic_song4);
-        picList.add(R.drawable.pic_song13);
+    public void initList() {
+        songList = new ArrayList<>();
+        songList.add(new SongBean("APT.", "ROSÉ/Bruno Mars", R.drawable.pic_song1));
+        songList.add(new SongBean("Please Please Please", "Sabrina Carpenter", R.drawable.pic_song3));
+        songList.add(new SongBean("不为谁而作的歌", "林俊杰", R.drawable.pic_song15));
+        songList.add(new SongBean("虚拟", "陈粒", R.drawable.pic_song2));
+        songList.add(new SongBean("Ask me why(眞人の決意)", "久石譲", R.drawable.pic_song4));
+        songList.add(new SongBean("Sacred Play Secret Place", "Matryoshka", R.drawable.pic_song13));
+        songList.add(new SongBean("Espresso", "Sabrina Carpenter", R.drawable.pic_singner_8));
     }
 }

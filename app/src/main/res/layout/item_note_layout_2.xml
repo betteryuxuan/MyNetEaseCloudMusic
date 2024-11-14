@@ -65,6 +65,7 @@
         app:layout_constraintTop_toBottomOf="@id/content_text">
 
         <ImageView
+            android:id="@+id/layout2_img_1"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
@@ -78,6 +79,7 @@
 
 
         <ImageView
+            android:id="@+id/layout2_img_2"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
@@ -87,6 +89,7 @@
             android:src="@drawable/pic_taylor_2" />
 
         <ImageView
+            android:id="@+id/layout2_img_3"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"

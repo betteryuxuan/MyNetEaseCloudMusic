@@ -9,6 +9,8 @@ import android.view.View;
 
 public class AnimationUtil {
 
+    private static ObjectAnimator animator3;
+
     // 缩放动画
     public static void setonlyAnimateView(View view) {
         view.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +69,7 @@ public class AnimationUtil {
         });
     }
 
+    // 给有点击事件的view设置动画
     public static void setAnimateView(View view) {
         ObjectAnimator animator1 = ObjectAnimator.ofFloat(view, "scaleX", 1f, 0.95f).setDuration(200);
         ObjectAnimator animator2 = ObjectAnimator.ofFloat(view, "scaleY", 1f, 0.95f).setDuration(200);
@@ -91,6 +94,26 @@ public class AnimationUtil {
         });
     }
 
+    // 更快速q弹的，给播放页面准备的
+    public static void setAnimateView2(View view) {
+        ObjectAnimator animator1 = ObjectAnimator.ofFloat(view, "scaleX", 1f, 0.9f).setDuration(50);
+        ObjectAnimator animator2 = ObjectAnimator.ofFloat(view, "scaleY", 1f, 0.9f).setDuration(50);
+
+        animator1.start();
+        animator2.start();
+
+        animator1.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                ObjectAnimator reverseAnimator1 = ObjectAnimator.ofFloat(view, "scaleX", 0.9f, 1f).setDuration(50);
+                ObjectAnimator reverseAnimator2 = ObjectAnimator.ofFloat(view, "scaleY", 0.9f, 1f).setDuration(50);
+
+                reverseAnimator1.start();
+                reverseAnimator2.start();
+            }
+        });
+    }
     // 震动动画
     public static void setShakeAnimateView(View view) {
         float shakeOffset = 5f;

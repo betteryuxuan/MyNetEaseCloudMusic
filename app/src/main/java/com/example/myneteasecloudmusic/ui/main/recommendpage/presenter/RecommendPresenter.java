@@ -28,4 +28,10 @@ public class RecommendPresenter extends BasePresenter<RecommendFragment, Recomme
     public void setAdapters() {
         mView.setAdapters();
     }
+
+    @Override
+    public void initList() {
+        mView.updateSongList(mModel.getSongList1(), mModel.getSongList2());
+    }
+
 }

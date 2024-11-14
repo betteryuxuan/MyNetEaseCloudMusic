@@ -38,6 +38,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/note_star_rlv"
             android:layout_width="0dp"
+            android:nestedScrollingEnabled="true"
             android:layout_height="85dp"
             android:layout_marginLeft="3dp"
             android:layout_marginTop="10dp"

@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.myneteasecloudmusic.R;
-import com.example.myneteasecloudmusic.ui.main.adapter.MineSongListAdapter;
+import com.example.myneteasecloudmusic.ui.main.adapter.MineSongListRlvAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +45,7 @@ public class MinePodcastFragment extends Fragment {
         RecyclerView rlv = view.findViewById(R.id.mine_podcast_rlv);
 
         initList();
-        MineSongListAdapter adapter = new MineSongListAdapter(getContext(), nameList, infoList, picList);
+        MineSongListRlvAdapter adapter = new MineSongListRlvAdapter(getContext(), nameList, infoList, picList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         rlv.setAdapter(adapter);
         rlv.setLayoutManager(layoutManager);
