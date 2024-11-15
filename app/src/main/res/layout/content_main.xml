@@ -13,16 +13,16 @@
         android:layout_marginBottom="20dp"
         android:elevation="8dp"
         android:src="@drawable/ic_play"
-        app:backgroundTint="#008000"
+        android:visibility="invisible"
+        android:backgroundTint="#93b5cf"
+        app:rippleColor="#de7897"
         app:layout_constraintBottom_toTopOf="@id/bottomView"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/mainViewPager"
-
         android:layout_width="match_parent"
         android:layout_height="0dp"
-
         app:layout_constraintBottom_toTopOf="@id/bottomView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

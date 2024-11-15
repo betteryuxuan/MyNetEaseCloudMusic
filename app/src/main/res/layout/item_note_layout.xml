@@ -133,8 +133,8 @@
         app:layout_constraintTop_toBottomOf="@id/song_card">
 
         <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginLeft="45dp"
             android:src="@drawable/ic_share" />
 
@@ -143,11 +143,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:text="分享"
-            android:textSize="10dp" />
+            android:textSize="12dp" />
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_marginLeft="50dp"
             android:src="@drawable/ic_comment" />
 
@@ -156,20 +156,22 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:text="175"
-            android:textSize="10dp" />
+            android:textSize="12dp" />
 
         <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:id="@+id/img_note_good"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginLeft="50dp"
             android:src="@drawable/ic_good_4" />
 
         <TextView
+            android:id="@+id/tv_note_good"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:text="3234"
-            android:textSize="10dp" />
+            android:textSize="12dp" />
 
         <ImageView
             android:layout_width="18dp"

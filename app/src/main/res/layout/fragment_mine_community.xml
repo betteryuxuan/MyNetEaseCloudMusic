@@ -13,6 +13,7 @@
         android:orientation="vertical">
 
         <include
+            android:id="@+id/item_mine_layout"
             layout="@layout/item_note_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,14 +22,14 @@
             app:layout_constraintTop_toBottomOf="@id/note_star_card_1" />
 
         <View
-            android:id="@+id/note_star_view_2"
+            android:id="@+id/note_mine_view_2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/white_gray"
             app:layout_constraintTop_toBottomOf="@id/item_note_layout" />
 
         <include
-            android:id="@+id/item_note_layout_2"
+            android:id="@+id/item_mine_layout_2"
             layout="@layout/item_note_layout_2"
 
             android:layout_width="match_parent"

@@ -1,7 +1,10 @@
 package com.example.myneteasecloudmusic.ui.main.minepage.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -9,58 +12,82 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.myneteasecloudmusic.R;
+import com.example.myneteasecloudmusic.databinding.FragmentMineCommunityBinding;
+import com.example.myneteasecloudmusic.ui.listen.ListenActivity;
+import com.example.myneteasecloudmusic.utils.AnimationUtil;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MineCommunityFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MineCommunityFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private FragmentMineCommunityBinding binding;
+    private boolean isLiked = false;
+    private boolean isLiked2 = false;
 
     public MineCommunityFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MineCommunityFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MineCommunityFragment newInstance(String param1, String param2) {
-        MineCommunityFragment fragment = new MineCommunityFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mine_community, container, false);
+        binding = FragmentMineCommunityBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        binding.itemMineLayout.songCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AnimationUtil.setAnimateView(binding.itemMineLayout.songCard);
+                Intent intent = new Intent(getContext(), ListenActivity.class);
+                intent.putExtra("songName", binding.itemMineLayout.songName.getText());
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_bottom, 0);
+            }
+        });
+
+
+        binding.itemMineLayout.imgNoteGood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isLiked) {
+                    binding.itemMineLayout.imgNoteGood.setImageResource(R.drawable.ic_good_4);
+                    int currentLikes = Integer.parseInt((String) binding.itemMineLayout.tvNoteGood.getText());
+                    binding.itemMineLayout.tvNoteGood.setText(String.valueOf(currentLikes - 1));
+                    isLiked = false;
+                } else {
+                    AnimationUtil.setLikeAnimate(binding.itemMineLayout.imgNoteGood);
+                    binding.itemMineLayout.imgNoteGood.setImageResource(R.drawable.ic_note_good_click);
+                    int currentLikes = Integer.parseInt((String) binding.itemMineLayout.tvNoteGood.getText());
+                    binding.itemMineLayout.tvNoteGood.setText(String.valueOf(currentLikes + 1));
+                    isLiked = true;
+                }
+            }
+        });
+
+        binding.itemMineLayout2.imgNoteGood.s-etOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isLiked2) {
+                    binding.itemMineLayout2.imgNoteGood.setImageResource(R.drawable.ic_good_4);
+                    int currentLikes = Integer.parseInt((String) binding.itemMineLayout2.tvNoteGood.getText());
+                    binding.itemMineLayout2.tvNoteGood.setText(String.valueOf(currentLikes - 1));
+                    isLiked2 = false;
+                } else {
+                    AnimationUtil.setLikeAnimate(binding.itemMineLayout2.imgNoteGood);
+                    binding.itemMineLayout2.imgNoteGood.setImageResource(R.drawable.ic_note_good_click);
+                    int currentLikes = Integer.parseInt((String) binding.itemMineLayout2.tvNoteGood.getText());
+                    binding.itemMineLayout2.tvNoteGood.setText(String.valueOf(currentLikes + 1));
+                    isLiked2 = true;
+                }
+            }
+        });
+        AnimationUtil.setonlyAnimateView(binding.itemMineLayout.songCard);
+        AnimationUtil.setAnimateView(binding.itemMineLayout.avatar);
+        AnimationUtil.setAnimateView(binding.itemMineLayout2.avatar);
     }
 }

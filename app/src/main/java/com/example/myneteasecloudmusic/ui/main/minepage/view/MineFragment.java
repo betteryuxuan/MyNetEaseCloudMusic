@@ -93,21 +93,57 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineCo
                 }
             }
         }).attach();
+        binding.tabMine.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if ("动态".equals(tab.getText())) {
+                    binding.tabMine.setBackground(getResources().getDrawable(R.drawable.tab_background2));
+                    binding.tabMine.setTabTextColors(
+                            getResources().getColor(R.color.gray),
+                            getResources().getColor(R.color.black)
+                    );
+                } else {
+                    binding.tabMine.setBackground(getResources().getDrawable(R.drawable.tab_background));
+                    binding.tabMine.setTabTextColors(
+                            getResources().getColor(R.color.dark_gray),
+                            getResources().getColor(R.color.white_gray)
+                    );
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         binding.mineScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                // 这里的 scrollY 是滚动的垂直偏移量
                 if (scrollY > 600) {
                     binding.mineTopName.setVisibility(View.VISIBLE);
                     binding.mineTopUserImg.setVisibility(View.VISIBLE);
+                    if (binding.vpMine.getCurrentItem() == 2) {
+                        binding.tabMine.setBackgroundResource(R.color.dark_white);
+                    }
                 } else {
                     binding.mineTopName.setVisibility(View.INVISIBLE);
                     binding.mineTopUserImg.setVisibility(View.INVISIBLE);
+                    if (binding.vpMine.getCurrentItem() == 2) {
+                        binding.tabMine.setBackground(getResources().getDrawable(R.drawable.tab_background2));
+                    }
                 }
             }
         });
 
+        setAnimation();
+    }
+
+    private void setAnimation() {
         AnimationUtil.setonlyAnimateView(binding.mineCard1);
         AnimationUtil.setonlyAnimateView(binding.mineCard2);
         AnimationUtil.setonlyAnimateView(binding.mineCard3);
@@ -118,6 +154,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineCo
         AnimationUtil.setonlyAnimateView(binding.mineMore);
         AnimationUtil.setonlyAnimateView(binding.imgMineSvip);
         AnimationUtil.setonlyAnimateView(binding.imgMineUser);
+
     }
 
     @Override

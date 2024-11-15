@@ -362,7 +362,7 @@
                 app:tabRippleColor="@android:color/transparent"
                 app:tabSelectedTextColor="@color/white_gray"
                 app:tabTextAppearance="@style/MyTabLayout"
-                app:tabTextColor="#9096a2">
+                app:tabTextColor="@color/dark_gray">
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
@@ -383,7 +383,7 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/vp_mine"
                 android:layout_width="match_parent"
-                android:layout_height="680dp"
+                android:layout_height="700dp"
                 android:background="#99181616" />
 
         </LinearLayout>

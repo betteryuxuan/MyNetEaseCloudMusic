@@ -7,6 +7,7 @@
     <color name="red">#d81e06</color>
     <color name="dark_white">#f8f9fd</color>
     <color name="white_gray">#eaedf2</color>
+    <color name="dark_gray">#9096a2</color>
     <color name="gray_transparent">#33515151</color>
     <color name="white_transparent">#99CCCCCC</color>
 </resources>

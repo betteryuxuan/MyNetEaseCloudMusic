@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.Build;
@@ -14,6 +15,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.myneteasecloudmusic.R;
 
@@ -31,6 +33,7 @@ public class MusicService extends Service {
     public void setOnMusicEndListenser(OnMusicEndListenser listenser) {
         this.onMusicEndListenser = listenser;
     }
+
 
     @Override
     public void onCreate() {
@@ -143,9 +146,11 @@ public class MusicService extends Service {
         }
     }
 
+
     public void playMusic() {
         if (!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
+            sendBroadcastManager();
         }
     }
 
@@ -177,6 +182,7 @@ public class MusicService extends Service {
         updateNotification();
         playMusic();
     }
+
     public boolean isPlaying() {
         return mediaPlayer.isPlaying();
     }
@@ -209,6 +215,12 @@ public class MusicService extends Service {
             mediaPlayer.seekTo(0);
             mediaPlayer.start();
         }
+    }
+
+    private void sendBroadcastManager() {
+        Intent intent = new Intent("com.example.myneteasecloudmusic.MUSIC_NAME");
+        intent.putExtra("songName", getSongName());
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
     // 通知通道，用于前台服务的通知

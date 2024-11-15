@@ -6,6 +6,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
 public class AnimationUtil {
 
@@ -132,5 +133,21 @@ public class AnimationUtil {
         });
 
         shakeAnimator.start();
+    }
+
+    public static void setLikeAnimate(View view) {
+        // 放大并缩小，模拟跳动效果
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 1.3f, 1f);  // 水平方向放大并还原
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 1.3f, 1f);  // 垂直方向放大并还原
+
+        // 设置动画持续时间和插值器
+        scaleX.setDuration(300);  // 持续时间 300ms
+        scaleY.setDuration(300);  // 持续时间 300ms
+        scaleX.setInterpolator(new AccelerateDecelerateInterpolator());  // 插值器，模拟自然的放大和缩小效果
+        scaleY.setInterpolator(new AccelerateDecelerateInterpolator());  // 插值器
+
+        // 开始执行动画
+        scaleX.start();
+        scaleY.start();
     }
 }

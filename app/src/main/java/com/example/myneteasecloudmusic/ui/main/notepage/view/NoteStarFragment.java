@@ -1,20 +1,16 @@
 package com.example.myneteasecloudmusic.ui.main.notepage.view;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 
 import com.example.myneteasecloudmusic.R;
 import com.example.myneteasecloudmusic.databinding.FragmentNoteStarBinding;
@@ -29,6 +25,8 @@ import java.util.List;
 public class NoteStarFragment extends Fragment {
     private List<String> singnerList;
     private List<Integer> singnerPicList;
+    private boolean isLiked = false;
+    private boolean isLiked2 = false;
 
     private FragmentNoteStarBinding binding;
 
@@ -76,6 +74,42 @@ public class NoteStarFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         binding.noteStarRlv.setAdapter(adater);
         binding.noteStarRlv.setLayoutManager(layoutManager);
+
+        binding.itemNoteLayout.imgNoteGood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isLiked) {
+                    binding.itemNoteLayout.imgNoteGood.setImageResource(R.drawable.ic_good_4);
+                    int currentLikes = Integer.parseInt((String) binding.itemNoteLayout.tvNoteGood.getText());
+                    binding.itemNoteLayout.tvNoteGood.setText(String.valueOf(currentLikes - 1));
+                    isLiked = false;
+                } else {
+                    AnimationUtil.setLikeAnimate(binding.itemNoteLayout.imgNoteGood);
+                    binding.itemNoteLayout.imgNoteGood.setImageResource(R.drawable.ic_note_good_click);
+                    int currentLikes = Integer.parseInt((String) binding.itemNoteLayout.tvNoteGood.getText());
+                    binding.itemNoteLayout.tvNoteGood.setText(String.valueOf(currentLikes + 1));
+                    isLiked = true;
+                }
+            }
+        });
+
+        binding.itemNoteLayout2.imgNoteGood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isLiked2) {
+                    binding.itemNoteLayout2.imgNoteGood.setImageResource(R.drawable.ic_good_4);
+                    int currentLikes = Integer.parseInt((String) binding.itemNoteLayout2.tvNoteGood.getText());
+                    binding.itemNoteLayout2.tvNoteGood.setText(String.valueOf(currentLikes - 1));
+                    isLiked2 = false;
+                } else {
+                    AnimationUtil.setLikeAnimate(binding.itemNoteLayout2.imgNoteGood);
+                    binding.itemNoteLayout2.imgNoteGood.setImageResource(R.drawable.ic_note_good_click);
+                    int currentLikes = Integer.parseInt((String) binding.itemNoteLayout2.tvNoteGood.getText());
+                    binding.itemNoteLayout2.tvNoteGood.setText(String.valueOf(currentLikes + 1));
+                    isLiked2 = true;
+                }
+            }
+        });
 
         AnimationUtil.setonlyAnimateView(binding.itemNoteLayout.avatar);
         AnimationUtil.setonlyAnimateView(binding.itemNoteLayout.userName);

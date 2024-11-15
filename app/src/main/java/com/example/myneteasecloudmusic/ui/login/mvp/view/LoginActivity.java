@@ -21,6 +21,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.myneteasecloudmusic.R;
 import com.example.myneteasecloudmusic.base.BaseActivity;
 import com.example.myneteasecloudmusic.base.BaseView;
 import com.example.myneteasecloudmusic.databinding.ActivityLoginBinding;
@@ -92,7 +93,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
                     Toast.makeText(getApplicationContext(), "请输入11位数字的手机号", Toast.LENGTH_SHORT).show();
                 } else if (!binding.cbLoginPrivacy.isChecked()) {
                     Toast.makeText(getApplicationContext(), "请同意服务条款及隐私政策", Toast.LENGTH_SHORT).show();
-
                 } else {
                     mPresenter.loginActivity();
                 }
@@ -118,6 +118,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     @Override
     public void loginActivity() {
         finish();
+        overridePendingTransition(0,R.anim.fade_out);
     }
 
     @Override
