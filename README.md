@@ -59,6 +59,7 @@
 ## 我的页
 
 我的页下方仍采用了TabLayout来展示三个界面，并且做了切换不同item背景不同的效果
+监听NestedScrollView的滑动，下滑时和上滑展示和隐藏头像
 
 ![Screenrecorder-2024-11-17-18-13-34-120](https://raw.githubusercontent.com/betteryuxuan/Image/main/Screenrecorder-2024-11-17-18-13-34-120.gif)
 
