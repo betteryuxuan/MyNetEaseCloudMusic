@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myneteasecloudmusic.R;
 import com.example.myneteasecloudmusic.bean.SongBean;
-import com.example.myneteasecloudmusic.ui.listen.ListenActivity;
+import com.example.myneteasecloudmusic.ui.listen.view.ListenActivity;
 import com.example.myneteasecloudmusic.utils.AnimationUtil;
 
 import java.util.List;

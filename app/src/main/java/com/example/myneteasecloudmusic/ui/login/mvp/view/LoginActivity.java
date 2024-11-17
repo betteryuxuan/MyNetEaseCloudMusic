@@ -92,6 +92,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
                     AnimationUtil.setShakeAnimateView(view);
                     Toast.makeText(getApplicationContext(), "请输入11位数字的手机号", Toast.LENGTH_SHORT).show();
                 } else if (!binding.cbLoginPrivacy.isChecked()) {
+                    AnimationUtil.setShakeAnimateView(view);
                     Toast.makeText(getApplicationContext(), "请同意服务条款及隐私政策", Toast.LENGTH_SHORT).show();
                 } else {
                     mPresenter.loginActivity();
@@ -103,6 +104,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, WebActivity.class);
+                intent.putExtra("url", "https://st.music.163.com/official-terms");
                 startActivity(intent);
             }
         });
@@ -110,6 +112,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, WebActivity.class);
+                intent.putExtra("url", "https://st.music.163.com/official-terms");
                 startActivity(intent);
             }
         });

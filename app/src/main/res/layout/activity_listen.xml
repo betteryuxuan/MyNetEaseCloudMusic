@@ -7,7 +7,7 @@
     android:background="@drawable/shape_background_listen"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".ui.listen.ListenActivity">
+    tools:context=".ui.listen.view.ListenActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -148,6 +148,7 @@
             android:text="开始" />
 
         <ImageView
+            android:id="@+id/img_listen_songlist"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginLeft="40dp"

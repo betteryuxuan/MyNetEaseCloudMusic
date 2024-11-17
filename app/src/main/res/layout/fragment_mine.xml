@@ -71,7 +71,7 @@
                     android:visibility="invisible" />
 
                 <ImageView
-                    android:id="@+id/mine_search"
+                    android:id="@+id/img_mine_search"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_gravity="end|center_vertical"
@@ -79,7 +79,7 @@
                     android:src="@drawable/ic_search_white" />
 
                 <ImageView
-                    android:id="@+id/mine_more"
+                    android:id="@+id/img_mine_more"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_gravity="end|center_vertical"

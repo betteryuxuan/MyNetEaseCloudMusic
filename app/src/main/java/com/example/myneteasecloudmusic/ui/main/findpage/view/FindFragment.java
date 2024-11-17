@@ -1,5 +1,6 @@
 package com.example.myneteasecloudmusic.ui.main.findpage.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import com.example.myneteasecloudmusic.databinding.FragmentFindBinding;
 import com.example.myneteasecloudmusic.ui.main.adapter.FindFragmentVPAdapter;
 import com.example.myneteasecloudmusic.ui.main.findpage.contract.IFindContract;
 import com.example.myneteasecloudmusic.ui.main.findpage.presenter.FindPresenter;
+import com.example.myneteasecloudmusic.ui.search.mvp.view.SearchActivity;
 import com.example.myneteasecloudmusic.utils.AnimationUtil;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -84,6 +86,14 @@ public class FindFragment extends BaseFragment<FindPresenter> implements IFindCo
                 }
             }
         }).attach();
+
+        binding.imgFindSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

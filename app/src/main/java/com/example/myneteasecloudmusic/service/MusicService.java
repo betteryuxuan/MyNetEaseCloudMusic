@@ -81,7 +81,7 @@ public class MusicService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        int songIndex = intent.getIntExtra("songIndex", 1) - 1;
+        int songIndex = intent.getIntExtra("songIndex", 1);
         Log.d("listenTag", "onStartCommand: " + songIndex);
 
         if (currentSongIndex != songIndex) {

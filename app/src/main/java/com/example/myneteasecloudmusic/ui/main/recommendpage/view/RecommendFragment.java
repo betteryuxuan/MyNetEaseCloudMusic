@@ -22,6 +22,7 @@ import com.example.myneteasecloudmusic.ui.main.adapter.RecommendSongsRlvAdapter;
 import com.example.myneteasecloudmusic.ui.main.recommendpage.contract.IRecommendContract;
 import com.example.myneteasecloudmusic.ui.main.recommendpage.presenter.RecommendPresenter;
 import com.example.myneteasecloudmusic.ui.search.mvp.view.SearchActivity;
+import com.example.myneteasecloudmusic.ui.webActivity.WebActivity;
 import com.example.myneteasecloudmusic.utils.AnimationUtil;
 
 import java.util.List;
@@ -100,6 +101,15 @@ public class RecommendFragment extends BaseFragment<RecommendPresenter> implemen
 //                return true;
 //            }
 //        });
+
+        binding.imgRecommend1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), WebActivity.class);
+                intent.putExtra("url", "https://www.wenjuan.com/s/BZjueu5/");
+                startActivity(intent);
+            }
+        });
 
         binding.rvRecommend1.setNestedScrollingEnabled(false);
         binding.rvRecommend2.setNestedScrollingEnabled(false);

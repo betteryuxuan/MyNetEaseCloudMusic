@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:id="@+id/layout_listen_song"
+    android:background="@color/white"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/item_listen_songname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="歌曲名"
+        android:textStyle="bold"
+        android:textColor="#3f475b"
+        android:textSize="15dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:text="·"
+        android:textColor="#9499a3"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/item_listen_singner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="歌手"
+        android:textColor="#9499a3"
+        android:textSize="13dp" />
+
+</LinearLayout>

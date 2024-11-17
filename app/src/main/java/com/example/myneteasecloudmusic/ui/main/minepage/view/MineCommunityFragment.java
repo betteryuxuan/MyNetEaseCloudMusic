@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.myneteasecloudmusic.R;
 import com.example.myneteasecloudmusic.databinding.FragmentMineCommunityBinding;
-import com.example.myneteasecloudmusic.ui.listen.ListenActivity;
+import com.example.myneteasecloudmusic.ui.listen.view.ListenActivity;
 import com.example.myneteasecloudmusic.utils.AnimationUtil;
 
 public class MineCommunityFragment extends Fragment {
@@ -69,7 +69,7 @@ public class MineCommunityFragment extends Fragment {
             }
         });
 
-        binding.itemMineLayout2.imgNoteGood.s-etOnClickListener(new View.OnClickListener() {
+        binding.itemMineLayout2.imgNoteGood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isLiked2) {

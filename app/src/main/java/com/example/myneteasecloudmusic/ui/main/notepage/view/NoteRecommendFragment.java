@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -14,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.myneteasecloudmusic.R;
 import com.example.myneteasecloudmusic.databinding.FragmentNoteRecommendBinding;
-import com.example.myneteasecloudmusic.ui.listen.ListenActivity;
+import com.example.myneteasecloudmusic.ui.listen.view.ListenActivity;
 import com.example.myneteasecloudmusic.utils.AnimationUtil;
 
 public class NoteRecommendFragment extends Fragment {

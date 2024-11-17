@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="700dp"
+    android:background="@drawable/shape_sheet_dialog"
+    android:orientation="vertical"
+    tools:context=".ui.listen.fragment.SongListBottomSheetFragment">
+
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@color/gray_transparent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:text="当前播放"
+        android:textColor="#283249"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/note_star_view_2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/white_gray" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rlv_listen_songlist"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1" />
+</LinearLayout>

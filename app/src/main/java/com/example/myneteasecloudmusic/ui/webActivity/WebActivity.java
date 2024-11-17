@@ -1,4 +1,6 @@
 package com.example.myneteasecloudmusic.ui.webActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -27,12 +29,14 @@ public class WebActivity extends AppCompatActivity {
         });
 
         webView = findViewById(R.id.wv_login_1);
+        Intent getIntent = getIntent();
+        String url = getIntent.getStringExtra("url");
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
 
-        webView.loadUrl("https://st.music.163.com/official-terms");
+        webView.loadUrl(url);
     }
 
     @Override

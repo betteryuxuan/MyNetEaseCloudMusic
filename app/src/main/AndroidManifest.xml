@@ -25,7 +25,7 @@
             android:exported="true"
             android:foregroundServiceType="mediaPlayback" />
         <activity
-            android:name=".ui.listen.ListenActivity"
+            android:name=".ui.listen.view.ListenActivity"
             android:exported="false" />
         <activity
             android:name=".ui.search.mvp.view.SearchActivity"

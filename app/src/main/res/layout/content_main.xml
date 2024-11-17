@@ -14,7 +14,7 @@
         android:elevation="8dp"
         android:src="@drawable/ic_play"
         android:visibility="invisible"
-        android:backgroundTint="#93b5cf"
+        android:backgroundTint="@color/white_gray"
         app:rippleColor="#de7897"
         app:layout_constraintBottom_toTopOf="@id/bottomView"
         app:layout_constraintEnd_toEndOf="parent" />

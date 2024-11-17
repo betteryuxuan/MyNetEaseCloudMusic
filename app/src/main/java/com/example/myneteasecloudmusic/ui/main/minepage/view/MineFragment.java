@@ -1,5 +1,6 @@
 package com.example.myneteasecloudmusic.ui.main.minepage.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.example.myneteasecloudmusic.databinding.FragmentMineBinding;
 import com.example.myneteasecloudmusic.ui.main.adapter.MineFragmentVPAdapter;
 import com.example.myneteasecloudmusic.ui.main.minepage.contract.IMineContract;
 import com.example.myneteasecloudmusic.ui.main.minepage.presenter.MinePresenter;
+import com.example.myneteasecloudmusic.ui.search.mvp.view.SearchActivity;
 import com.example.myneteasecloudmusic.utils.AnimationUtil;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -140,6 +142,15 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineCo
             }
         });
 
+        binding.imgMineSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AnimationUtil.setAnimateView(binding.imgMineSearch);
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                startActivity(intent);
+            }
+        });
+
         setAnimation();
     }
 
@@ -150,8 +161,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineCo
         AnimationUtil.setonlyAnimateView(binding.mineCard4);
         AnimationUtil.setonlyAnimateView(binding.mineCard5);
         AnimationUtil.setonlyAnimateView(binding.tvMineName);
-        AnimationUtil.setonlyAnimateView(binding.mineSearch);
-        AnimationUtil.setonlyAnimateView(binding.mineMore);
+        AnimationUtil.setonlyAnimateView(binding.imgMineMore);
         AnimationUtil.setonlyAnimateView(binding.imgMineSvip);
         AnimationUtil.setonlyAnimateView(binding.imgMineUser);
 

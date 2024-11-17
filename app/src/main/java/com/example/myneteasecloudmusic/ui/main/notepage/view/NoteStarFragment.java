@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myneteasecloudmusic.R;
 import com.example.myneteasecloudmusic.databinding.FragmentNoteStarBinding;
-import com.example.myneteasecloudmusic.ui.listen.ListenActivity;
+import com.example.myneteasecloudmusic.ui.listen.view.ListenActivity;
 import com.example.myneteasecloudmusic.ui.main.adapter.NoteStarRlvAdater;
 import com.example.myneteasecloudmusic.utils.AnimationUtil;
 
